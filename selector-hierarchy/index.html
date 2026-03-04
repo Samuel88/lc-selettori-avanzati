@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selector Hierarchy</title>
+
+    <link rel="stylesheet" href="./index.css">
+</head>
+
+<body>
+    <main>
+        <h1 class="main-title">Gerarchia dei Selettori CSS</h1>
+
+        <!-- ============================================================
+             SEZIONE INTRODUTTIVA – Spiegazione concettuale
+        ============================================================ -->
+        <section class="spiegazione">
+            <h2>Figlio diretto <code>&gt;</code> vs discendente <code> </code> (spazio)</h2>
+
+            <p>
+                In CSS, la <strong>gerarchia degli elementi</strong> descrive come i tag sono annidati
+                l'uno dentro l'altro nel DOM. Ci sono due modi principali di attraversarla:
+            </p>
+
+            <ul>
+                <li>
+                    <strong>Selettore discendente (spazio):</strong>
+                    <code>.genitore .figlio</code> — seleziona <em>tutti</em> gli elementi
+                    con classe <code>figlio</code> che si trovano <em>in qualsiasi punto</em>
+                    all'interno di <code>.genitore</code>, a prescindere da quanti livelli
+                    di annidamento ci sono in mezzo.
+                </li>
+                <li>
+                    <strong>Selettore figlio diretto (<code>&gt;</code>):</strong>
+                    <code>.genitore &gt; .figlio</code> — seleziona <em>solo</em> gli elementi
+                    con classe <code>figlio</code> che sono <em>figli immediati</em> di
+                    <code>.genitore</code>. Se c'è un elemento intermedio tra i due, il
+                    selettore <strong>non</strong> funziona.
+                </li>
+            </ul>
+
+            <p>
+                <strong>Analogia:</strong> pensa alla famiglia.
+                Il selettore spazio è come dire "tutti i miei discendenti" (figli, nipoti, pronipoti…).
+                Il selettore <code>&gt;</code> è come dire "solo i miei figli diretti".
+            </p>
+        </section>
+
+        <!-- ============================================================
+             SEZIONE 1 – Selettore discendente (spazio)
+             Concetto: seleziona QUALSIASI discendente, a qualunque profondità
+        ============================================================ -->
+        <section class="container">
+            <h2>Sezione 1 – Selettore discendente (spazio)</h2>
+            <p>
+                <code>.box-A .testo</code> seleziona <strong>tutti</strong> gli elementi
+                con classe <code>.testo</code> dentro <code>.box-A</code>, a qualunque profondità.
+            </p>
+
+            <!-- CSS da decommentare in index.css:
+                 .box-A .testo { background: lightblue; }
+            -->
+
+            <div class="code-block">
+                <span class="html-tag">&lt;div</span> <span class="html-attr">class</span>=<span class="html-class">"box-A"</span><span class="html-tag">&gt;</span><br>
+                &nbsp;&nbsp;<span class="html-tag">&lt;p</span> <span class="html-attr">class</span>=<span class="html-class">"testo"</span><span class="html-tag">&gt;</span>Figlio diretto<span class="html-tag">&lt;/p&gt;</span><br>
+                &nbsp;&nbsp;<span class="html-tag">&lt;div</span> <span class="html-attr">class</span>=<span class="html-class">"inner"</span><span class="html-tag">&gt;</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="html-tag">&lt;p</span> <span class="html-attr">class</span>=<span class="html-class">"testo"</span><span class="html-tag">&gt;</span>Nipote<span class="html-tag">&lt;/p&gt;</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="html-tag">&lt;div</span> <span class="html-attr">class</span>=<span class="html-class">"inner-inner"</span><span class="html-tag">&gt;</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="html-tag">&lt;p</span> <span class="html-attr">class</span>=<span class="html-class">"testo"</span><span class="html-tag">&gt;</span>Pronipote<span class="html-tag">&lt;/p&gt;</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="html-tag">&lt;/div&gt;</span><br>
+                &nbsp;&nbsp;<span class="html-tag">&lt;/div&gt;</span><br>
+                <span class="html-tag">&lt;/div&gt;</span><br>
+                <span class="html-tag">&lt;p</span> <span class="html-attr">class</span>=<span class="html-class">"testo"</span><span class="html-tag">&gt;</span>Fuori da .box-A<span class="html-tag">&lt;/p&gt;</span>
+            </div>
+
+            <div class="box-A">
+                <p class="testo">Selezionato ✓ (figlio diretto)</p>
+                <div class="inner">
+                    <p class="testo">Selezionato ✓ (nipote)</p>
+                    <div class="inner-inner">
+                        <p class="testo">Selezionato ✓ (pronipote)</p>
+                    </div>
+                </div>
+            </div>
+            <p class="testo">NON selezionato ✗ (fuori da .box-A)</p>
+        </section>
+
+        <!-- ============================================================
+             SEZIONE 2 – Selettore figlio diretto (>)
+             Concetto: seleziona SOLO i figli immediati
+        ============================================================ -->
+        <section class="container">
+            <h2>Sezione 2 – Selettore figlio diretto (<code>&gt;</code>)</h2>
+            <p>
+                <code>.box-A &gt; .testo</code> seleziona <strong>solo</strong> i figli
+                immediati di <code>.box-A</code> con classe <code>.testo</code>.
+                I discendenti più profondi non vengono toccati.
+            </p>
+            <p><em>Nota: decommentando <code>.inner &gt; .testo</code> si colora solo il nipote diretto, non il pronipote.</em></p>
+
+            <!-- CSS da decommentare in index.css:
+                 .box-A > .testo { background: lightcoral; }
+            -->
+
+            <p><em>Struttura HTML identica alla Sezione 1 — il comportamento diverso viene dal CSS.</em></p>
+
+            <div class="box-A">
+                <p class="testo">Selezionato ✓ (figlio diretto)</p>
+                <div class="inner">
+                    <p class="testo">NON selezionato ✗ (nipote – non figlio diretto di .box-A)</p>
+                    <div class="inner-inner">
+                        <p class="testo">NON selezionato ✗ (pronipote)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             SEZIONE 3 – Confronto diretto: spazio vs >
+             Concetto: affiancamento visivo per vedere la differenza
+        ============================================================ -->
+        <section class="container">
+            <h2>Sezione 3 – Confronto: spazio vs <code>&gt;</code></h2>
+            <p>
+                Le due colonne hanno la stessa struttura HTML. A sinistra viene applicato
+                il selettore discendente, a destra il selettore figlio diretto.
+            </p>
+
+            <!-- CSS da decommentare in index.css:
+                 .col-spazio .testo { background: lightblue; }
+                 .col-gt > .testo   { background: lightcoral; }
+            -->
+
+            <div class="confronto">
+                <div class="col-spazio">
+                    <div class="code-block">
+                        <span class="html-tag">&lt;div</span> <span class="html-attr">class</span>=<span class="html-class">"col-spazio"</span><span class="html-tag">&gt;</span><br>
+                        &nbsp;&nbsp;<span class="html-tag">&lt;p</span> <span class="html-attr">class</span>=<span class="html-class">"testo"</span><span class="html-tag">&gt;</span>Figlio diretto<span class="html-tag">&lt;/p&gt;</span><br>
+                        &nbsp;&nbsp;<span class="html-tag">&lt;div</span> <span class="html-attr">class</span>=<span class="html-class">"inner"</span><span class="html-tag">&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="html-tag">&lt;p</span> <span class="html-attr">class</span>=<span class="html-class">"testo"</span><span class="html-tag">&gt;</span>Nipote<span class="html-tag">&lt;/p&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="html-tag">&lt;div</span> <span class="html-attr">class</span>=<span class="html-class">"inner-inner"</span><span class="html-tag">&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="html-tag">&lt;p</span> <span class="html-attr">class</span>=<span class="html-class">"testo"</span><span class="html-tag">&gt;</span>Pronipote<span class="html-tag">&lt;/p&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="html-tag">&lt;/div&gt;</span><br>
+                        &nbsp;&nbsp;<span class="html-tag">&lt;/div&gt;</span><br>
+                        <span class="html-tag">&lt;/div&gt;</span>
+                    </div>
+                    <strong>.col-spazio .testo</strong> (discendente)
+                    <p class="testo">Figlio diretto</p>
+                    <div class="inner">
+                        <p class="testo">Nipote</p>
+                        <div class="inner-inner">
+                            <p class="testo">Pronipote</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-gt">
+                    <div class="code-block">
+                        <span class="html-tag">&lt;div</span> <span class="html-attr">class</span>=<span class="html-class">"col-gt"</span><span class="html-tag">&gt;</span><br>
+                        &nbsp;&nbsp;<span class="html-tag">&lt;p</span> <span class="html-attr">class</span>=<span class="html-class">"testo"</span><span class="html-tag">&gt;</span>Figlio diretto<span class="html-tag">&lt;/p&gt;</span><br>
+                        &nbsp;&nbsp;<span class="html-tag">&lt;div</span> <span class="html-attr">class</span>=<span class="html-class">"inner"</span><span class="html-tag">&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="html-tag">&lt;p</span> <span class="html-attr">class</span>=<span class="html-class">"testo"</span><span class="html-tag">&gt;</span>Nipote<span class="html-tag">&lt;/p&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="html-tag">&lt;div</span> <span class="html-attr">class</span>=<span class="html-class">"inner-inner"</span><span class="html-tag">&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="html-tag">&lt;p</span> <span class="html-attr">class</span>=<span class="html-class">"testo"</span><span class="html-tag">&gt;</span>Pronipote<span class="html-tag">&lt;/p&gt;</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="html-tag">&lt;/div&gt;</span><br>
+                        &nbsp;&nbsp;<span class="html-tag">&lt;/div&gt;</span><br>
+                        <span class="html-tag">&lt;/div&gt;</span>
+                    </div>
+                    <strong>.col-gt &gt; .testo</strong> (figlio diretto)
+                    <p class="testo">Figlio diretto</p>
+                    <div class="inner">
+                        <p class="testo">Nipote</p>
+                        <div class="inner-inner">
+                            <p class="testo">Pronipote</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             SEZIONE 4 – Gerarchia "interrotta" (card-inutile)
+             Concetto: un elemento intermedio rompe il selettore >
+        ============================================================ -->
+        <section class="container">
+            <h2>Sezione 4 – Gerarchia "interrotta"</h2>
+            <p>
+                <code>.cards &gt; .card</code> <strong>non funziona</strong> perché tra
+                <code>.cards</code> e <code>.card</code> c'è un elemento intermedio
+                (<code>.card-inutile</code>). Il selettore <code>.cards .card</code>
+                invece funziona, perché ignora la profondità.
+            </p>
+
+            <!-- CSS da decommentare in index.css:
+                 NON funziona: .card non è figlio diretto di .cards
+                 .cards > .card { border: 2px solid red; }
+
+                 Funziona: .card è discendente di .cards
+                 .cards .card { border: 2px solid green; }
+            -->
+
+            <div class="code-block">
+                <span class="html-tag">&lt;section</span> <span class="html-attr">class</span>=<span class="html-class">"cards"</span><span class="html-tag">&gt;</span><br>
+                &nbsp;&nbsp;<span class="html-tag">&lt;div</span> <span class="html-attr">class</span>=<span class="html-class">"card-inutile"</span><span class="html-tag">&gt;</span> <span class="html-comment">&lt;!-- rompe .cards &gt; .card --&gt;</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="html-tag">&lt;div</span> <span class="html-attr">class</span>=<span class="html-class">"card"</span><span class="html-tag">&gt;</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="html-tag">&lt;div</span> <span class="html-attr">class</span>=<span class="html-class">"card-wrapper"</span><span class="html-tag">&gt;</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="html-tag">&lt;h2</span> <span class="html-attr">class</span>=<span class="html-class">"card-title"</span><span class="html-tag">&gt;</span>Titolo1<span class="html-tag">&lt;/h2&gt;</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="html-tag">&lt;/div&gt;</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="html-tag">&lt;/div&gt;</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="html-tag">&lt;div</span> <span class="html-attr">class</span>=<span class="html-class">"card"</span><span class="html-tag">&gt;</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="html-tag">&lt;h2</span> <span class="html-attr">class</span>=<span class="html-class">"card-title"</span><span class="html-tag">&gt;</span>Titolo2<span class="html-tag">&lt;/h2&gt;</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="html-tag">&lt;/div&gt;</span><br>
+                &nbsp;&nbsp;<span class="html-tag">&lt;/div&gt;</span><br>
+                <span class="html-tag">&lt;/section&gt;</span>
+            </div>
+
+            <section class="cards">
+                <div class="card-inutile">
+                    <!-- .card NON è figlio diretto di .cards → .cards > .card fallisce -->
+                    <div class="card">
+                        <div class="card-wrapper">
+                            <div class="card-title-wrapper">
+                                <h2 class="card-title">Titolo1</h2>
+                            </div>
+                            <p class="card-description">Contenuto card 1</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h2 class="card-title">Titolo2</h2>
+                        <p class="card-description">Contenuto card 2</p>
+                    </div>
+                </div>
+            </section>
+        </section>
+
+        <!-- ============================================================
+             SEZIONE 5 – Fratello adiacente (+)
+             Concetto: seleziona il primo elemento immediatamente successivo
+        ============================================================ -->
+        <section class="container">
+            <h2>Sezione 5 – Fratello adiacente (<code>+</code>)</h2>
+            <p>
+                <code>h2.titolo + p.paragrafo</code> seleziona <strong>solo il primo</strong>
+                paragrafo immediatamente dopo <code>h2.titolo</code>.
+                Il secondo paragrafo non viene selezionato.
+            </p>
+
+            <!-- CSS da decommentare in index.css:
+                 h2.titolo + p.paragrafo { color: red; }
+            -->
+
+            <div class="code-block">
+                <span class="html-tag">&lt;h2</span> <span class="html-attr">class</span>=<span class="html-class">"titolo"</span><span class="html-tag">&gt;</span>Titolo A<span class="html-tag">&lt;/h2&gt;</span><br>
+                <span class="html-tag">&lt;p</span> <span class="html-attr">class</span>=<span class="html-class">"paragrafo"</span><span class="html-tag">&gt;</span>Paragrafo subito dopo<span class="html-tag">&lt;/p&gt;</span><br>
+                <span class="html-tag">&lt;p</span> <span class="html-attr">class</span>=<span class="html-class">"paragrafo"</span><span class="html-tag">&gt;</span>Secondo paragrafo<span class="html-tag">&lt;/p&gt;</span>
+            </div>
+
+            <h2 class="titolo">Titolo A</h2>
+            <p class="paragrafo">Paragrafo subito dopo ← selezionato ✓</p>
+            <p class="paragrafo">Secondo paragrafo ← NON selezionato ✗</p>
+        </section>
+
+        <!-- ============================================================
+             SEZIONE 6 – Fratello generale (~)
+             Concetto: seleziona TUTTI gli elementi successivi allo stesso livello
+        ============================================================ -->
+        <section class="container">
+            <h2>Sezione 6 – Fratello generale (<code>~</code>)</h2>
+            <p>
+                <code>h2.titolo ~ p.paragrafo</code> seleziona <strong>tutti</strong>
+                i paragrafi che seguono <code>h2.titolo</code> allo stesso livello.
+            </p>
+
+            <!-- CSS da decommentare in index.css:
+                 h2.titolo ~ p.paragrafo { color: orange; }
+            -->
+
+            <p><em>Struttura HTML identica alla Sezione 5 — il comportamento diverso viene dal CSS.</em></p>
+
+            <h2 class="titolo">Titolo B</h2>
+            <p class="paragrafo">Primo paragrafo ← selezionato ✓</p>
+            <p class="paragrafo">Secondo paragrafo ← selezionato ✓</p>
+        </section>
+
+        <!-- ============================================================
+             SEZIONE 7 – Selettori concatenati: div.card vs div .card
+             Concetto: senza spazio = stesso elemento; con spazio = relazione gerarchica
+        ============================================================ -->
+        <section class="container">
+            <h2>Sezione 7 – Concatenato vs discendente: <code>div.card</code> vs <code>div .card</code></h2>
+            <p>
+                Senza spazio (<code>div.card</code>): seleziona un <code>&lt;div&gt;</code>
+                che <strong>ha</strong> la classe <code>card</code>.<br>
+                Con spazio (<code>div .card</code>): seleziona qualsiasi <code>.card</code>
+                che sia <strong>discendente</strong> di un <code>&lt;div&gt;</code>.
+            </p>
+
+            <!-- CSS da decommentare in index.css:
+                 div.card  { background: lightgreen; }
+                 div .card { background: lightyellow; }
+            -->
+
+            <div class="code-block">
+                <span class="html-comment">&lt;!-- div CHE HA class="card" → div.card --&gt;</span><br>
+                <span class="html-tag">&lt;div</span> <span class="html-attr">class</span>=<span class="html-class">"card"</span><span class="html-tag">&gt;</span>...<span class="html-tag">&lt;/div&gt;</span><br>
+                <br>
+                <span class="html-comment">&lt;!-- span DENTRO un div → div .card --&gt;</span><br>
+                <span class="html-tag">&lt;div&gt;</span><br>
+                &nbsp;&nbsp;<span class="html-tag">&lt;span</span> <span class="html-attr">class</span>=<span class="html-class">"card"</span><span class="html-tag">&gt;</span>...<span class="html-tag">&lt;/span&gt;</span><br>
+                <span class="html-tag">&lt;/div&gt;</span>
+            </div>
+
+            <div class="card">div CHE HA class="card" ← <code>div.card</code> lo colora</div>
+            <div>
+                <span class="card">span DENTRO un div ← <code>div .card</code> lo colora</span>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             SEZIONE 8 – Catene miste: > e spazio insieme
+             Concetto: combinare > e spazio nella stessa regola
+        ============================================================ -->
+        <section class="container">
+            <h2>Sezione 8 – Catene miste: <code>&gt;</code> e spazio insieme</h2>
+            <p>
+                Si può combinare <code>&gt;</code> e spazio nella stessa regola.
+                Si legge da sinistra a destra come una "mappa" del DOM.
+            </p>
+            <p>
+                <code>.lista &gt; ul .item</code>: <code>ul</code> deve essere figlio diretto
+                di <code>.lista</code>, poi <code>.item</code> può essere a qualunque profondità
+                dentro <code>ul</code>.
+            </p>
+
+            <!-- CSS da decommentare in index.css:
+                 .lista > ul .item   { color: purple; }   ← funziona
+                 .lista > ul > .item { color: red; }      ← funziona anche questo (<li> è figlio diretto di ul)
+            -->
+
+            <div class="code-block">
+                <span class="html-tag">&lt;section</span> <span class="html-attr">class</span>=<span class="html-class">"lista"</span><span class="html-tag">&gt;</span><br>
+                &nbsp;&nbsp;<span class="html-tag">&lt;ul&gt;</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="html-tag">&lt;li</span> <span class="html-attr">class</span>=<span class="html-class">"item"</span><span class="html-tag">&gt;</span>Item 1<span class="html-tag">&lt;/li&gt;</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="html-tag">&lt;li</span> <span class="html-attr">class</span>=<span class="html-class">"item"</span><span class="html-tag">&gt;</span>Item 2<span class="html-tag">&lt;/li&gt;</span><br>
+                &nbsp;&nbsp;<span class="html-tag">&lt;/ul&gt;</span><br>
+                <span class="html-tag">&lt;/section&gt;</span>
+            </div>
+
+            <section class="lista">
+                <ul>
+                    <li class="item">Item 1 ← <code>.lista &gt; ul .item</code> lo colora</li>
+                    <li class="item">Item 2 ← <code>.lista &gt; ul .item</code> lo colora</li>
+                </ul>
+            </section>
+        </section>
+
+    </main>
+</body>
+
+</html>

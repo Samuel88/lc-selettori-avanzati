@@ -1,0 +1,125 @@
+* {
+    border: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: sans-serif;
+    padding: 20px;
+}
+
+.container {
+    border: 1px solid #ccc;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.spiegazione {
+    border: 1px solid #ccc;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    background: #f9f9f9;
+}
+
+.spiegazione ul {
+    padding-left: 1.5rem;
+    margin: 0.5rem 0;
+}
+
+.spiegazione li {
+    margin-bottom: 0.5rem;
+}
+
+/* Sezione 3 – layout colonne affiancate */
+.confronto {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+.col-spazio,
+.col-gt {
+    flex: 1;
+    border: 1px dashed #999;
+    padding: 0.75rem;
+}
+
+/* Fix: posizione relativa necessaria per il ::after posizionato in assoluto */
+.main-title {
+    position: relative;
+}
+
+.main-title:hover::after {
+    content: '';
+    font-size: 48px;
+    display: block;
+    width: 25%;
+    height: 15px;
+    background: yellow;
+    position: absolute;
+    bottom: 0;
+    z-index: -1;
+}
+
+/* --- Blocchi di codice HTML (stile VS Code dark) --- */
+.code-block {
+    background: #1e1e1e;
+    color: #d4d4d4;
+    padding: 20px;
+    border-radius: 6px;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    overflow-x: auto;
+    margin: 12px 0;
+    border: 1px solid #333;
+}
+
+.html-tag     { color: #569cd6; }
+.html-attr    { color: #9cdcfe; }
+.html-class   { color: #ce9178; }
+.html-comment { color: #6a9955; font-style: italic; }
+
+
+/* ================================================================
+   ESEMPI DA DECOMMENTARE – uno per sezione
+   ================================================================ */
+
+/* --- SEZ. 1: discendente ---
+   Colora TUTTI i .testo dentro .box-A, a qualunque profondità */
+/* .box-A .testo { background: lightblue; } */
+
+/* --- SEZ. 2: figlio diretto ---
+   Colora SOLO i .testo figli diretti di .box-A */
+/* .box-A > .testo { background: lightcoral; } */
+
+/* --- SEZ. 3: confronto colonne ---
+   Colonna sinistra: discendente – colonna destra: figlio diretto */
+/* .col-spazio .testo { background: lightblue; } */
+/* .col-gt > .testo   { background: lightcoral; } */
+
+/* --- SEZ. 4: gerarchia interrotta ---
+   NON funziona: .card non è figlio diretto di .cards */
+/* .cards > .card { border: 2px solid red; } */
+/* Funziona: .card è discendente di .cards */
+/* .cards .card { border: 2px solid green; } */
+
+/* --- SEZ. 5: fratello adiacente ---
+   Colora SOLO il primo paragrafo subito dopo h2.titolo */
+/* h2.titolo + p.paragrafo { color: red; } */
+
+/* --- SEZ. 6: fratelli generali ---
+   Colora TUTTI i paragrafi successivi a h2.titolo */
+/* h2.titolo ~ p.paragrafo { color: orange; } */
+
+/* --- SEZ. 7: concatenato vs discendente ---
+   Seleziona un <div> che ha classe "card" */
+/* div.card  { background: lightgreen; } */
+/* Seleziona qualsiasi .card discendente di un <div> */
+/* div .card { background: lightyellow; } */
+
+/* --- SEZ. 8: catena mista ---
+   ul figlio diretto di .lista, poi .item discendente di ul */
+/* .lista > ul .item   { color: purple; } */
+/* .lista > ul > .item { color: red; } */
